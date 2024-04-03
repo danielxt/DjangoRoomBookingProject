@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block title %}Book Room{% endblock %}
+
+{% block content %}
+<!-- is staff or is admin -->
+{% if user.is_authenticated %}
+<br>
+    
+    <div class="container py-4 boxColor boxShadow">
+        <h2>Book Room</h2>
+        <br>
+    {% if errorMessage %}
+    <div class="container py-4 boxColor boxShadow" style="background-color:var(--fail)">
+        {{errorMessage}}
+    </div>
+    <br>
+    {% endif %}
+   
+    <form method="POST" action="{% url 'roomBooking' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="hiddenUserName">Username:</label>
+        <input type="text" name="hiddenUserName"value="{{user.username}}" disabled="disabled">
+        
+        <br>
+        <br>
+       
+        {{ form.as_p }}
+        {% include 'imageSlider.html' with rooms=rooms %}
+        <br>
+        <br>
+        
+        <button type="submit" name="checkAvailability">Check availability</button>
+        {% if bookingsOnDateForRoom|length == 0%}
+        <br>
+        <br>
+        <b>No bookings found for that room on that date.</b>
+        {% else %}
+        <table class="dataTable">
+            <tr style="font-weight:bold">
+                <th>Booked room</th>
+                <th>Date</th>
+                <th>Start</th>
+                <th>End</th>
+                <th>User</th>
+            </tr>
+            {% for booking in bookingsOnDateForRoom %}
+            <tr>
+                <td>{{booking.roomName}}</td>
+                <td>{{booking.date}}</td>
+                <td>{{booking.start}}</td>
+                <td>{{booking.end}}</td>
+                <td>{{booking.userName}}</td>
+            </tr>
+            {% endfor %}
+            <br>
+            <br>
+            {% if bookingStatus %}
+                <div class="container py-4 boxColor boxShadow" style="background-color:var(--success)">
+                    Booking is available at given time and date
+                </div>
+            {% else %}
+                <div class="container py-4 boxColor boxShadow" style="background-color:var(--fail)">
+                    Booking conflicts with another booking
+                </div>
+            {% endif %}
+        </table>
+        {% endif %}
+
+        
+        <br>
+        <br>
+        <button type="submit" name="makeBooking" value="makeBooking">Make booking</button>
+    </form>
+</div>
+    
+
+{% else %}
+<br>
+<div class="container py-4 boxColor boxShadow">
+    <p>You are not logged in.</p>
+    <button><a href="{% url 'login' %}">Log In</a></button>
+</div>
+{% endif %}
+{% endblock %}

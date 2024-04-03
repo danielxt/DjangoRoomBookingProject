@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete User{% endblock %}
+
+{% block content %}
+{% if user.is_staff %}
+<br>
+    <div class="container py-4 boxColor boxShadow">
+    <h1>Delete user</h1>
+        <form action="deleteUserRecord/{{deletingUser.id}}" method="post">
+            {% csrf_token %}
+            <p>Are you sure you want to delete <b>User {{deletingUser.username}}?</b></p>
+            <p>(Bookings of deleted users will also be deleted)</p>
+        <input type="submit" value="Submit">
+    </form>
+    </div>
+<!-- authenticated but not admin -->
+{% elif user.is_authenticated %} 
+<br>
+<div class="container py-4 boxColor boxShadow">
+    <p>You are not an admin.</p>
+    <button><a href="{% url 'login' %}">Log In</a></button>
+</div>
+<!-- not authenticated -->
+{% else %}
+<br>
+<div class="container py-4 boxColor boxShadow">
+    <p>You are not logged in.</p>
+    <button><a href="{% url 'login' %}">Log In</a></button>
+</div>
+{% endif %}
+{% endblock %}

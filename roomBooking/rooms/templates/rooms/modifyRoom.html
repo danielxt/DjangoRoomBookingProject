@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %} Modify room {% endblock %}
+{% block content %}
+{% if user.is_staff %}
+<br>
+    <div class="container py-4 boxColor boxShadow">
+    <h1>Modify room</h1>
+    <form action="updateRoom/{{ room.id }}" method="post">
+        {% csrf_token %}
+        Room name: <br>
+        <input name="roomName" value="{{ room.roomName}}">
+        <br><br>
+        Capacity: <br>
+        <input name="capacity" value ="{{ room.capacity}}">
+        <br><br>
+        <input type="submit" value="Submit">
+
+    </form>
+
+    </div>
+<!-- authenticated but not admin -->
+{% elif user.is_authenticated %} 
+<br>
+<div class="container py-4 boxColor boxShadow">
+    <p>You are not an admin.</p>
+    <button><a href="{% url 'login' %}">Log In</a></button>
+</div>
+<!-- not authenticated -->
+{% else %}
+<br>
+<div class="container py-4 boxColor boxShadow">
+    <p>You are not logged in.</p>
+    <button><a href="{% url 'login' %}">Log In</a></button>
+</div>
+{% endif %}
+{% endblock %}

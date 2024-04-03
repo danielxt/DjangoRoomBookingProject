@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}Manage bookings {% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+    <br>
+    <div class="container py-4 boxColor boxShadow">
+        <h2>Manage 
+            {% if not user.is_staff %}
+                own
+            {% endif %}
+            bookings</h2>
+        <button><a href="{% url 'roomBooking' %}">Book room</a></button>
+                    <table class="dataTable">
+                        <tr style="font-weight:bold">
+                            <th>Booked room</th>
+                            <th>Date</th>
+                            <th>Start</th>
+                            <th>End</th>
+                            <th>User</th>
+                            {% if user.is_staff %}
+                            <th>Modify</th>
+                            <th>Delete</th>
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            {% for booking in roomBooking %}
+                                <tr>
+                                    <td>{{booking.roomName}}</td>
+                                    <td>{{booking.date}}</td>
+                                    <td>{{booking.start}}</td>
+                                    <td>{{booking.end}}</td>
+                                    <td>{{booking.userName}}</td>
+                                    {% if user.is_staff %}
+                                    <td><a href="modifyBooking/{{booking.id}}"><i class="bi bi-pencil"></i></a></td>
+                                    <td><a href="deleteBooking/{{booking.id}}"><i class="bi bi-x-octagon"></i></a></td>
+                                    {% endif %}
+                                </tr>
+                            {% endfor %}
+
+                            
+                        </tr>
+                    </table>
+    </div>
+<!-- not authenticated -->
+{% else %}
+<br>
+<div class="container py-4 boxColor boxShadow">
+    <p>You are not logged in.</p>
+    <button><a href="{% url 'login' %}">Log In</a></button>
+</div>
+{% endif %}
+    
+    
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<style>
+    html,body {
+        height:100%;
+        margin:0 auto;
+    }
+    #loginBox {
+        min-height:100%;
+        margin:auto;
+        width:fit-content;
+        margin-top:50px;
+        padding:50px;
+        background-color:var(--white);
+        border-radius:15px
+        
+    }
+</style>
+<body>
+    
+    <div id="loginBox" class="boxShadow" style="color: var(--grey)">
+        <h2>ABC Room Booking Portal</h2>
+        <br>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <div style="width:100%; text-align:center">
+                <button type="submit" class="btn" style="background-color:var(--buttonColor); border:2px solid var(--grey)">Log In</button>
+                </div>
+            </form>
+    </div>
+</body>
+{% endblock %}

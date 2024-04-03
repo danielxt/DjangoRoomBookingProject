@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Create Room{% endblock %}
+
+{% block content %}
+{% if user.is_staff %}
+<br>
+    <div class="container py-4 boxColor boxShadow">
+    <h2>Create Room</h2>
+    <form method="POST" action="{% url 'createRoom' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Create Room</button>
+    </form>
+    </div>
+    
+<!-- authenticated but not admin -->
+{% elif user.is_authenticated %} 
+<br>
+<div class="container py-4 boxColor boxShadow">
+    <p>You are not an admin.</p>
+    <button><a href="{% url 'login' %}">Log In</a></button>
+</div>
+<!-- not authenticated -->
+{% else %}
+<br>
+<div class="container py-4 boxColor boxShadow">
+    <p>You are not logged in.</p>
+    <button><a href="{% url 'login' %}">Log In</a></button>
+</div>
+{% endif %}
+{% endblock %}

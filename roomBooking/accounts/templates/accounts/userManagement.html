@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}Manage users{% endblock %}
+
+{% block content %}
+{% if user.is_staff %}
+    <br>
+    <div class="container py-4 boxColor boxShadow">
+        <h1>Manage users</h1>
+        <button><a href="{% url 'signup' %}">Create staff/admin account</a></button>
+        <table class="dataTable">
+        <tr style="font-weight:bold">
+            <th>Username</th>
+            <th>isStaff</th>
+            <th>Delete</th>
+        </tr>
+        {% for user in users %}
+        <tr>
+            <td> {{user.username}}</td>
+            <td> {{user.is_staff}}</td>
+            <td><a href="deleteUser/{{user.id}}"><i class="bi bi-x-octagon"></i></a></td>
+        {% endfor %}
+        </tr>
+    </table>
+    </div>
+
+<!-- authenticated but not admin -->
+{% elif user.is_authenticated %} 
+<br>
+<div class="container py-4 boxColor boxShadow">
+    <p>You are not an admin.</p>
+    <button><a href="{% url 'login' %}">Log In</a></button>
+</div>
+<!-- not authenticated -->
+{% else %}
+<br>
+<div class="container py-4 boxColor boxShadow">
+    <p>You are not logged in.</p>
+    <button><a href="{% url 'login' %}">Log In</a></button>
+</div>
+{% endif %}
+
+    
+
+{% endblock %}

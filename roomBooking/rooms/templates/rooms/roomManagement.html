@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Manage rooms{% endblock %}
+
+{% block content %}
+{% if user.is_staff %}
+<br>
+<div class="container py-4 boxColor boxShadow">
+    <h1>Manage rooms</h1>
+    <button><a href="{% url 'createRoom' %}">Create room </a></button>
+    <table class="dataTable">
+        <tr style="font-weight:bold">
+            <th>Image</th>
+            <th>Room name</th>
+            <th>Capacity</th>
+            <th>Modify</th>
+            <th>Delete</th>
+        </tr>
+        {% for room in rooms %}
+            <tr>
+                <td><img style="width:150px" src="{{ room.roomImage.url }}"></td>
+                <td>{{room.roomName}}</td>
+                <td>{{room.capacity}}</td>
+                <td><a href="modify/{{room.id}}"><i class="bi bi-pencil"></i></a></td>
+                <td><a href="deleteRoom/{{room.id}}"><i class="bi bi-x-octagon"></i></a></td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+<!-- authenticated but not admin -->
+{% elif user.is_authenticated %} 
+<br>
+<div class="container py-4 boxColor boxShadow">
+    <p>You are not an admin.</p>
+    <button><a href="{% url 'login' %}">Log In</a></button>
+</div>
+<!-- not authenticated -->
+{% else %}
+<br>
+<div class="container py-4 boxColor boxShadow">
+    <p>You are not logged in.</p>
+    <button><a href="{% url 'login' %}">Log In</a></button>
+</div>
+{% endif %}
+{% endblock %}

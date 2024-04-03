@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete booking {% endblock %}
+
+{% block content %}
+{% if user.is_staff %}
+<br>
+    <div class="container py-4 boxColor boxShadow">
+    <h2>Delete Booking</h2>
+    <form method="POST" action="deleteBookingRecord/{{ booking.id }}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <p>Are you sure you want to delete <b>{{booking.userName}}'s booking on {{booking.date}} between {{booking.start}} - {{booking.end}}?</b></p>
+        <button type="submit">Delete booking</button>
+    </form>
+    </div>
+<!-- authenticated but not admin -->
+{% elif user.is_authenticated %} 
+<br>
+<div class="container py-4 boxColor boxShadow">
+    <p>You are not an admin.</p>
+    <button><a href="{% url 'login' %}">Log In</a></button>
+</div>
+<!-- not authenticated -->
+{% else %}
+<br>
+<div class="container py-4 boxColor boxShadow">
+    <p>You are not logged in.</p>
+    <button><a href="{% url 'login' %}">Log In</a></button>
+</div>
+{% endif %}
+{% endblock %}

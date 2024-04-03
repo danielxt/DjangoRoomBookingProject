@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <!-- <link href="style.css" rel="stylesheet"> -->
+    <!-- <link rel="icon" type="image" href="ABClogo.jpg"> -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <link href="{{ STATIC_URL }}css/bootstrap.css" rel="stylesheet" type="text/css"/>
+    <script src="{{ STATIC_URL }}js/bootstrap.js"></script>
+    {{ form.media }}
+    <style>
+
+:root {
+
+--orange:#FF8551;
+--white:#f9f9f9;
+--offWhite:#f0f0f0;
+--buttonColor:var(--grey);
+--grey:#2D4356;
+--success:#7FFFD4;
+--fail:#ff7b95;
+
+
+}
+
+
+
+body {
+    background-color:var(--offWhite);
+    color:var(--grey)
+}
+
+a {
+        /* text-decoration:none; */
+        color:var(--grey)
+    }
+    .manageIconColor {
+        color:var(--grey)
+    }
+
+    .boxHeaderFont {
+        font-size:22px;
+    }
+
+    .boxShadow {
+        filter: drop-shadow(0px 0px 3px #cecece);
+        border-radius:2px;
+    }
+
+    .boxColor {
+        
+        background-color:var(--white);
+    }
+    button {
+        background-color:var(--buttonColor);
+        border:2px solid var(--grey);
+        border-radius:5px;
+        width:100%;
+        color:var(--offWhite) !important;
+    }
+    button a {
+        display:block;
+        width:100%;
+        color:var(--offWhite) !important;
+        
+    }
+    .bi-pencil {
+        color:rgb(125, 125, 254);
+    }
+    .bi-x-octagon {
+        color:red;
+    }
+    .bi-book {
+        color:brown;
+    }
+
+    button a {
+        color:var(--grey);
+    }
+    .headerNumbers {
+        font-size:50px;
+        font-weight:bold;
+    }
+    .headerText {
+        font-weight:bold;
+    }
+
+    .dataTable {
+        width:100%;
+    }
+    .dataTable td,th {
+        padding:5px;
+    }
+    .dataTable td{
+        border-top:1px solid var(--grey);
+        border-bottom:1px solid var(--grey);
+    }
+
+</style>
+    <title>{% block title %} Login Page {% endblock %}</title>
+</head>
+
+<body>
+    <!-- very jank... -->
+    <!-- should have made base template that did not have the header, and just include the header
+    on each template manually -->
+
+    {% if request.get_full_path != "/accounts/login/" %}
+        {% include 'header.html' %}
+    {% endif %}
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+    <br>
+</body>
+
+</head>
+</html>
+</html>

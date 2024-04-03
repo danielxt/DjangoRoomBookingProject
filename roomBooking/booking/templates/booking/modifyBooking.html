@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}Modify Booking{% endblock %}
+
+{% block content %}
+{% if user.is_staff %}
+<br>
+    <div class="container py-4 boxColor boxShadow">
+    <h1>Modify booking </h1>
+        <p><b>Changing {{booking.userName}}'s booking for Room {{booking.roomName}} on {{booking.date}} between {{booking.start}} - {{booking.end}}</b></p>
+        <form action="modifyBookingRecord/{{booking.id}}" method="post">
+            {% csrf_token %}
+            {{form.as_p}}
+
+        <div class="container py-4 boxColor boxShadow">
+            <h2><b>Current bookings for Room {{booking.roomName}}</b></h2>
+            {{bookingsForRoomCount}}
+            <table class="dataTable">
+                <tr>
+                    <th>Room name</th>
+                    <th>Date</th>
+                    <th>Start</th>
+                    <th>End</th>
+                    <th>User</th>
+                </tr>
+                
+                {% for bookedRoom in bookingsForRoom %}
+                    <tr>
+                        <td>{{bookedRoom.roomName}}</td>
+                        <td>{{bookedRoom.date}}</td>
+                        <td>{{bookedRoom.start}}</td>
+                        <td>{{bookedRoom.end}}</td>
+                        <td>{{bookedRoom.userName}}</td>
+                    </tr>
+
+                {% endfor %}
+                
+            </table>
+        </div>
+        <br>
+        
+        <input type="submit" value="Submit">
+    </form>
+    </div>
+<!-- authenticated but not admin -->
+{% elif user.is_authenticated %} 
+<br>
+<div class="container py-4 boxColor boxShadow">
+    <p>You are not an admin.</p>
+    <button><a href="{% url 'login' %}">Log In</a></button>
+</div>
+<!-- not authenticated -->
+{% else %}
+<br>
+<div class="container py-4 boxColor boxShadow">
+    <p>You are not logged in.</p>
+    <button><a href="{% url 'login' %}">Log In</a></button>
+</div>
+{% endif %}
+{% endblock %}

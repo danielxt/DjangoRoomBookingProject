@@ -1,0 +1,172 @@
+{% extends 'base.html' %}
+
+{% block title %} Home {% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<style>
+    
+
+</style>
+<div class="container">
+    <br>
+    <p><b>Welcome, {{ user.username }} </b></p>
+    {{todayDate}}
+    <p>Dashboard last updated: {{ time }}</p>
+    {% if deletedBookings|length > 0 %}
+    <div class="container py-2 boxColor boxShadow" style="background-color:var(--fail)">
+        <p class="boxHeaderFont"><b class="boxHeaderFont">Warning: Deleted bookings</b></p>
+        <table class="dataTable">
+            <tr>
+                <th>Room name</th>
+                <th>Date</th>
+                <th>Start</th>
+                <th>End</th>
+                <th>User</th>
+            </tr>
+            {% for booking in deletedBookings %}
+            <tr>
+                <td>{{booking.roomName}}</td>
+                <td>{{booking.date}}</td>
+                <td>{{booking.start}}</td>
+                <td>{{booking.end}}</td>
+                <td>{{booking.userName}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <br>
+        <form method="POST" action="{% url 'clearDeletedBookingsUser' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <button type="submit" name="ok">Ok</button>
+        </form>
+        
+    </div>
+    <br>
+    {% endif %}
+    {% if user.is_staff %}
+        <div class="container py-2 boxColor boxShadow">
+            <p class="boxHeaderFont"><b class="boxHeaderFont">Admin dashboard</b></p>
+            <p> Allows admins to create new accounts, manage rooms and view availability. </p>
+        </div>
+
+        <div class="container boxShadow" style="text-align:center">
+            <div class="row pt-4 headerNumbers">  
+                <div class="col boxColor py-2">
+                    {{numBookings}}
+                </div>
+                <div class="col boxColor py-2">
+                    {{numMeetingsNow}}
+                </div>
+                <div class="col boxColor py-2">
+                    {{numRoomsAvailable}}
+                </div>
+          </div>
+
+          <div class="row headerText">  
+            <!-- ACCOUNT HANDLING -->
+            <div class="col boxColor py-2">
+                Bookings made
+                <!-- {% for user in users %}
+                    <p> {{user.username}}</p>
+                {% endfor %} -->
+            </div>
+                
+            <!-- ROOM HANDLING -->
+            <div class="col boxColor py-2">
+                Meetings happening now
+                
+            </div>
+            <div class="col boxColor py-2">
+                Rooms available now
+                
+
+            </div>
+
+        </div>
+        </div>
+
+        
+
+          <!-- ROOM AVAILABILITY -->
+            
+
+            <div class="container boxShadow" style="text-align:center">
+                <div class="row pt-4 headerNumbers">  
+                    <div class="col boxColor py-2">
+                        <a href="userManagement"><i class="bi bi-people"></i></a>
+                    </div>
+                    <div class="col boxColor py-2">
+                        <a href="roomManagement"><i class="bi bi-door-open"></i></a>
+                    </div>
+                    <div class="col boxColor py-2">
+                        <a href="bookingManagement"><i class="bi bi-journals"></i></a>
+                    </div>
+              </div>
+    
+              <div class="row headerText">  
+                <!-- ACCOUNT HANDLING -->
+                <div class="col boxColor py-2">
+                    User management
+                    <!-- {% for user in users %}
+                        <p> {{user.username}}</p>
+                    {% endfor %} -->
+                </div>
+                    
+                <!-- ROOM HANDLING -->
+                <div class="col boxColor py-2">
+                    Room management
+                    
+                </div>
+                <div class="col boxColor py-2">
+                    Booking management
+                    
+    
+                </div>
+    
+            </div>
+            </div>
+        
+        
+    {% else %}
+        <div class="container py-2 boxColor boxShadow">
+        <p class="boxHeaderFont"><b class="boxHeaderFont">Staff dashboard</b></p>
+        <p> Allows staff to book rooms and view availability. </p>
+        </div>
+
+        <div class="container boxShadow" style="text-align:center">
+            <div class="row pt-4 headerNumbers">  
+                <div class="col boxColor py-2">
+                    <a href="bookingManagement"><i class="bi bi-journals"></i></a>
+                </div>
+          </div>
+
+          <div class="row headerText">  
+            <div class="col boxColor py-2">
+                Booking management
+            </div>
+
+        </div>
+
+    {% endif %}
+
+    <br>
+        
+    </div>
+    
+    
+    
+        
+    </div>
+
+
+{% else %}
+<br>
+    <div class="container py-4 boxColor boxShadow">
+        <p>You are not logged in</p>
+        <button><a href="{% url 'login' %}">Log In</a></button>
+
+    </div>
+
+
+{% endif %}
+{% endblock %}
